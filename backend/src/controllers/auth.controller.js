@@ -1,5 +1,17 @@
-export const signup = (req, res) =>{
-    res.send("singup route")
+import User from "../models/user.model.js"
+export const signup = async (req, res) =>{
+    const {fullName, email, password} = req.body
+    try {
+        if (password.length < 6) {
+            return res.status(400).json({ message: "Password must be at least 6 characters" });
+          }
+
+          const user = await User.findOne({email})
+
+          if (user) return res.status(400).json({ message: "Email already exists" });
+    } catch (error) {
+        
+    }
 }
 
 export const login = (req, res) =>{
